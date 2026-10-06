@@ -401,7 +401,10 @@ function onScroll(){
   if (still) return;
   hero.style.setProperty("--hp", Math.min(Math.max(y / (hero.offsetHeight * .8), 0), 1).toFixed(3));
   obs.forEach(function(o){
-    var p = Math.min(Math.max((vh * .88 - o.getBoundingClientRect().top) / (vh * .45), 0), 1);
+    var top = o.getBoundingClientRect().top;
+    var maxTop = top + y - (document.documentElement.scrollHeight - vh);
+    var end = Math.max(vh * .45, maxTop + 12), start = vh * .95;
+    var p = Math.min(Math.max((start - top) / Math.max(start - end, 60), 0), 1);
     var n = Math.round(p * o.children.length);
     for (var i = 0; i < o.children.length; i++) o.children[i].classList.toggle("lit", i < n);
   });
